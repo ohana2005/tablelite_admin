@@ -1,0 +1,31 @@
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/11-App
+
+all:
+  sf_admin_dash:
+    site: 'Snop'
+
+    menu:
+      Content:
+        icon: barcode
+        items:
+          Default Image:
+            icon: picture
+            url:          default_image
+          Text Blocks:
+            icon: file-text              
+            url:          text_block
+      Users:
+        url: 'user/index'
+        icon: user
+      Restaurants:
+        url: 'restaurant/index'
+        icon: beer
+
+    menu2:
+      Floors:
+        icon: gear
+        url:          floor
+      Config:
+        icon: gear
+        url:          restaurant_config

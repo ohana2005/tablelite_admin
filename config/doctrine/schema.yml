@@ -1,0 +1,104 @@
+Restaurant:
+  connection: doctrine
+  actAs:
+    Sluggable:
+      unique: true
+      fields: [name]
+      canUpdate: true
+      builder: 'ProjectHelper::slug_builder'
+  columns:
+    admin_id: integer
+    name: {type: string(255), notnull: true}
+  relations:
+    Admin: {class: sfGuardUser, local: admin_id, type: one, foreignType: one, onDelete: CASCADE}
+
+RestaurantConfig:
+  connection: doctrine
+  columns:
+    restaurant_id: {type: integer, notnull: true}
+    keyname: {type: string(32), notnull: true}
+    section: {type: integer(2), unsigned: true, default: 1}
+    datatype: {type: string(32), default: 'string'}
+    label: {type: string(255)}
+    value: {type: string(255)}
+  relations:
+    Restaurant: {foreignAlias: ConfigRecords, onDelete: CASCADE}
+
+Floor:
+  connection: doctrine
+  columns:
+    restaurant_id: {type: integer, notnull: true}
+    name: string(255)
+    width: {type: integer(2), notnull: true, unsigned: true}
+    height: {type: integer(2), notnull: true, unsigned: true}
+  relations:
+    Restaurant: {foreignAlias: Floors, onDelete: CASCADE}
+
+FloorSpacer:
+  connection: doctrine
+  columns:
+    restaurant_id: {type: integer, notnull: true}
+    floor_id: {type: integer, notnull: true}
+    width: {type: integer(2), notnull: true, unsigned: true}
+    height: {type: integer(2), notnull: true, unsigned: true}
+    posx: {type: integer(2), notnull: true, unsigned: true}
+    posy: {type: integer(2), notnull: true, unsigned: true}
+  relations:
+    Floor: {foreignAlias: Spacers, onDelete: CASCADE}
+    Restaurant: {foreignAlias: Spacers, onDelete: CASCADE}
+
+FloorPlace:
+  connection: doctrine
+  columns:
+    restaurant_id: {type: integer, notnull: true}
+    floor_id: {type: integer, notnull: true}
+    width: {type: integer(2), notnull: true, unsigned: true}
+    height: {type: integer(2), notnull: true, unsigned: true}
+    posx: {type: integer(2), notnull: true, unsigned: true}
+    posy: {type: integer(2), notnull: true, unsigned: true}
+    number: string(32)
+    min_persons: {type: integer(2), unsigned: true, default: 1}
+    max_persons: {type: integer(2), unsigned: true, default: 1}
+  relations:
+    Floor: {foreignAlias: Places, onDelete: CASCADE}
+    Restaurant: {foreignAlias: Places, onDelete: CASCADE}
+
+
+DefaultImage:
+  connection: doctrine  
+  actAs: [ImageBuilder]
+  columns:
+    name: string(255)
+    title: string(255)
+    image: {type: string(255), notnull: true} 
+
+
+
+    
+TextBlock:
+  connection: doctrine
+  actAs:
+    I18n:
+      fields: [text]
+  columns:
+    name: {type: string(255), notnull: true}
+    title: {type: string(255)}
+    text: string()
+    application: string(32)
+    module: string(32)
+    special_mark: string(32)
+    is_visible_for_admin: {type: boolean, default: false}
+  indexes:
+    section_index:
+      fields: [application, module]
+
+
+
+
+
+
+
+  
+
+
+
